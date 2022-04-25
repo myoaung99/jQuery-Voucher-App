@@ -105,7 +105,15 @@
 
       // add tr on load
       addRow();
-      let allTotal = 0;
+      function allTotal() {
+        // element တွေကို array ပြောင်း၊ map နဲ့ innerHtml ထုတ်၊ reduce နဲ့ပေါင်း
+        $("#total").html(
+          $(".price")
+            .toArray()
+            .map((el) => el.innerHTML)
+            .reduce((x, y) => Number(x) + Number(y))
+        );
+      }
 
       $(".add-row-btn").click(function () {
         addRow();
@@ -117,6 +125,7 @@
         }
         // $(this).parentsUntil("tbody") === tr
         $(this).parentsUntil("tbody").remove();
+        allTotal();
       });
 
       $("tbody").delegate("input", "keyup change", function () {
@@ -124,6 +133,8 @@
         const quantity = $(this).parentsUntil("tbody").find(".quantity").val();
         const total = cost * quantity;
         $(this).parentsUntil("tbody").find("h4").html(total);
+
+        allTotal();
       });
     </script>
   </body>
